@@ -1,0 +1,725 @@
+/* ==========================================================================
+   HeroSection.css — TrafficMind AI Cinematic 3D Night-City Hero
+   ========================================================================== */
+
+.tm-hero-track {
+  position: relative;
+  height: 420vh;
+  width: 100%;
+}
+
+.tm-hero-scene {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--color-deep, #05070b);
+}
+
+/* --------------------------------------------------------------------------
+   Background Video Layer
+   -------------------------------------------------------------------------- */
+.tm-scene-video-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.tm-scene-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Ambient Film Lighting / Vignette Shade */
+.tm-scene-shade {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(7, 17, 31, 0.72) 0%,
+    rgba(7, 17, 31, 0.25) 30%,
+    rgba(5, 7, 11, 0.4) 65%,
+    rgba(5, 7, 11, 0.85) 100%
+  );
+}
+
+/* --------------------------------------------------------------------------
+   Floating HUD Road Network & Telemetry Overlay
+   -------------------------------------------------------------------------- */
+.tm-hud-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 25;
+  transition: opacity 0.4s ease;
+  opacity: 0;
+}
+
+.tm-hud-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tm-svg-stream-1 {
+  animation: streamFlow1 2.2s linear infinite;
+}
+
+.tm-svg-stream-2 {
+  animation: streamFlow2 3s linear infinite;
+}
+
+@keyframes streamFlow1 {
+  0% {
+    stroke-dashoffset: 64;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes streamFlow2 {
+  0% {
+    stroke-dashoffset: 48;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* HUD Pins */
+.tm-hud-pin {
+  position: absolute;
+  display: flex;
+  align-items: flex-start;
+  gap: calc(10 * var(--u));
+  pointer-events: auto;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tm-hud-pin:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.pin-alpha {
+  top: 24%;
+  right: 14%;
+}
+
+.pin-beta {
+  bottom: 28%;
+  right: 18%;
+}
+
+/* Beacon Rings */
+.tm-pin-beacon {
+  position: relative;
+  width: calc(20 * var(--u));
+  height: calc(20 * var(--u));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: calc(4 * var(--u));
+}
+
+.tm-beacon-core {
+  width: calc(8 * var(--u));
+  height: calc(8 * var(--u));
+  border-radius: 50%;
+  background: var(--color-cyan, #00d4ff);
+  box-shadow: 0 0 10px var(--color-cyan, #00d4ff);
+}
+
+.high-risk .tm-beacon-core {
+  background: #ff3b5c;
+  box-shadow: 0 0 12px #ff3b5c;
+}
+
+.optimal .tm-beacon-core {
+  background: #00e599;
+  box-shadow: 0 0 12px #00e599;
+}
+
+.tm-beacon-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-cyan, #00d4ff);
+  opacity: 0.8;
+  animation: beaconPulse 2s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+
+.high-risk .tm-beacon-ring {
+  border-color: #ff3b5c;
+}
+
+.optimal .tm-beacon-ring {
+  border-color: #00e599;
+}
+
+@keyframes beaconPulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* HUD Pin Card */
+.tm-pin-card {
+  background: rgba(7, 17, 31, 0.82);
+  border: 1px solid rgba(0, 212, 255, 0.25);
+  border-radius: calc(10 * var(--u));
+  padding: calc(10 * var(--u)) calc(14 * var(--u));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), 0 0 15px rgba(0, 212, 255, 0.08);
+  min-width: calc(180 * var(--u));
+}
+
+.tm-pin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(8 * var(--u));
+  margin-bottom: calc(6 * var(--u));
+}
+
+.tm-pin-id {
+  font-size: calc(10 * var(--u));
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-white, #f5f7fa);
+}
+
+.tm-pin-tag {
+  font-size: calc(9 * var(--u));
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: calc(2 * var(--u)) calc(6 * var(--u));
+  border-radius: calc(4 * var(--u));
+}
+
+.tag-high {
+  background: rgba(255, 59, 92, 0.16);
+  color: #ff5c77;
+  border: 1px solid rgba(255, 59, 92, 0.35);
+}
+
+.tag-opt {
+  background: rgba(0, 229, 153, 0.16);
+  color: #00e599;
+  border: 1px solid rgba(0, 229, 153, 0.35);
+}
+
+.tm-pin-metric {
+  display: flex;
+  align-items: baseline;
+  gap: calc(6 * var(--u));
+  margin-bottom: calc(4 * var(--u));
+}
+
+.tm-pin-num {
+  font-size: calc(18 * var(--u));
+  font-weight: 700;
+  color: var(--color-cyan, #00d4ff);
+}
+
+.high-risk .tm-pin-num {
+  color: #ff3b5c;
+}
+
+.optimal .tm-pin-num {
+  color: #00e599;
+}
+
+.tm-pin-label {
+  font-size: calc(10 * var(--u));
+  color: rgba(245, 247, 250, 0.65);
+}
+
+.tm-pin-recommend {
+  font-size: calc(10 * var(--u));
+  font-weight: 600;
+  color: rgba(245, 247, 250, 0.85);
+  display: flex;
+  align-items: center;
+  gap: calc(4 * var(--u));
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: calc(5 * var(--u));
+}
+
+.tm-pin-rec-icon {
+  font-size: calc(11 * var(--u));
+}
+
+/* Center Status Stamp */
+.tm-hud-stamp {
+  position: absolute;
+  top: calc(75 * var(--u));
+  right: calc(36 * var(--u));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: calc(2 * var(--u));
+  background: rgba(7, 17, 31, 0.7);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: calc(8 * var(--u));
+  padding: calc(6 * var(--u)) calc(12 * var(--u));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.tm-stamp-dot {
+  width: calc(6 * var(--u));
+  height: calc(6 * var(--u));
+  border-radius: 50%;
+  background: var(--color-cyan, #00d4ff);
+  box-shadow: 0 0 8px var(--color-cyan, #00d4ff);
+  animation: blinkStamp 1.4s ease-in-out infinite;
+}
+
+@keyframes blinkStamp {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.tm-stamp-label {
+  font-size: calc(9.5 * var(--u));
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-cyan, #00d4ff);
+}
+
+.tm-stamp-val {
+  font-size: calc(8.5 * var(--u));
+  letter-spacing: 0.05em;
+  color: rgba(245, 247, 250, 0.6);
+}
+
+/* --------------------------------------------------------------------------
+   3D Perspective Headline Stage
+   -------------------------------------------------------------------------- */
+.tm-hero-stage {
+  position: fixed;
+  top: calc(96 * var(--u));
+  left: 0;
+  right: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  perspective: calc(900 * var(--u));
+  pointer-events: none;
+  padding: 0 calc(24 * var(--u));
+}
+
+.tm-headline-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transform-origin: center bottom;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  max-width: calc(1180 * var(--u));
+  pointer-events: auto;
+}
+
+/* Eyebrow Pill */
+.tm-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(8 * var(--u));
+  padding: calc(6 * var(--u)) calc(14 * var(--u));
+  background: rgba(0, 212, 255, 0.08);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 9999px;
+  margin-bottom: calc(20 * var(--u));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.tm-eyebrow-pulse {
+  width: calc(6 * var(--u));
+  height: calc(6 * var(--u));
+  border-radius: 50%;
+  background: var(--color-cyan, #00d4ff);
+  box-shadow: 0 0 calc(8 * var(--u)) var(--color-cyan, #00d4ff);
+  animation: eyebrowPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes eyebrowPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.5;
+  }
+}
+
+.tm-eyebrow-text {
+  font-size: calc(11 * var(--u));
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-cyan, #00d4ff);
+}
+
+/* Headline */
+.tm-hero-title {
+  font-size: calc(82 * var(--u));
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+  color: var(--color-white, #f5f7fa);
+  margin-bottom: calc(22 * var(--u));
+  text-wrap: balance;
+  text-shadow: 0 calc(4 * var(--u)) calc(30 * var(--u)) rgba(5, 7, 11, 0.95);
+}
+
+.tm-br-desktop {
+  display: block;
+}
+
+/* Subtitle */
+.tm-hero-subtitle {
+  font-size: calc(18 * var(--u));
+  font-weight: 400;
+  line-height: 1.5;
+  color: rgba(245, 247, 250, 0.78);
+  max-width: calc(780 * var(--u));
+  text-wrap: balance;
+  margin-bottom: calc(34 * var(--u));
+  text-shadow: 0 calc(2 * var(--u)) calc(16 * var(--u)) rgba(5, 7, 11, 0.9);
+}
+
+/* Hero Action Buttons */
+.tm-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: calc(16 * var(--u));
+}
+
+.tm-btn-hero-primary {
+  height: calc(48 * var(--u));
+  padding: 0 calc(28 * var(--u));
+  border-radius: 9999px;
+  background: var(--color-cyan, #00d4ff);
+  color: #05070b;
+  font-size: calc(13 * var(--u));
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: calc(10 * var(--u));
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 4px 20px rgba(0, 212, 255, 0.4), 0 0 10px rgba(0, 212, 255, 0.2);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background 0.2s ease;
+}
+
+.tm-btn-hero-primary:hover {
+  transform: translateY(-2px);
+  background: #33dcff;
+  box-shadow: 0 6px 26px rgba(0, 212, 255, 0.6), 0 0 16px rgba(0, 212, 255, 0.35);
+}
+
+.tm-btn-hero-primary:active {
+  transform: translateY(0);
+}
+
+.tm-btn-hero-secondary {
+  height: calc(48 * var(--u));
+  padding: 0 calc(24 * var(--u));
+  border-radius: 9999px;
+  background: rgba(7, 17, 31, 0.75);
+  color: var(--color-white, #f5f7fa);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: calc(13 * var(--u));
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: calc(8 * var(--u));
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, background 0.2s ease;
+}
+
+.tm-btn-hero-secondary:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 212, 255, 0.5);
+  background: rgba(14, 27, 46, 0.85);
+  color: var(--color-cyan, #00d4ff);
+}
+
+/* --------------------------------------------------------------------------
+   Scroll Cue (Centered, 36u from bottom)
+   -------------------------------------------------------------------------- */
+.tm-scroll-cue {
+  position: fixed;
+  bottom: calc(34 * var(--u));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: auto;
+  cursor: pointer;
+  user-select: none;
+  will-change: opacity;
+}
+
+.tm-scroll-cue-text {
+  font-size: calc(11 * var(--u));
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: rgba(245, 247, 250, 0.72);
+  margin-bottom: calc(6 * var(--u));
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.tm-scroll-cue:hover .tm-scroll-cue-text {
+  color: var(--color-cyan, #00d4ff);
+}
+
+.tm-scroll-cue-track {
+  width: calc(160 * var(--u));
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.tm-scroll-cue-line {
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-cyan, #00d4ff);
+  transform-origin: left center;
+  will-change: transform;
+}
+
+/* --------------------------------------------------------------------------
+   Process Accordion List (Fixed, Bottom Left)
+   -------------------------------------------------------------------------- */
+.tm-process-container {
+  position: fixed;
+  left: calc(36 * var(--u));
+  bottom: calc(28 * var(--u));
+  width: calc(440 * var(--u));
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  gap: calc(9 * var(--u));
+  will-change: transform, opacity;
+  pointer-events: auto;
+}
+
+.tm-process-card {
+  background: rgba(7, 17, 31, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: calc(12 * var(--u));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: calc(10 * var(--u)) calc(14 * var(--u));
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.tm-process-card:hover {
+  border-color: rgba(0, 212, 255, 0.4);
+  background: rgba(10, 24, 44, 0.85);
+  transform: translateX(2px);
+}
+
+.tm-process-header {
+  display: flex;
+  align-items: center;
+  gap: calc(14 * var(--u));
+}
+
+.tm-process-number {
+  width: calc(36 * var(--u));
+  height: calc(36 * var(--u));
+  flex-shrink: 0;
+  border-radius: calc(8 * var(--u));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(13 * var(--u));
+  font-weight: 700;
+  color: rgba(245, 247, 250, 0.72);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.tm-process-title-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.tm-process-title {
+  font-size: calc(13 * var(--u));
+  font-weight: 600;
+  color: rgba(245, 247, 250, 0.85);
+  letter-spacing: -0.01em;
+  transition: color 0.35s ease, font-weight 0.35s ease;
+}
+
+.tm-process-badge {
+  font-size: calc(9.5 * var(--u));
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: rgba(245, 247, 250, 0.4);
+  background: rgba(255, 255, 255, 0.06);
+  padding: calc(2 * var(--u)) calc(6 * var(--u));
+  border-radius: calc(4 * var(--u));
+  transition: color 0.35s ease, background 0.35s ease;
+}
+
+/* Accordion Drawer */
+.tm-process-drawer {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.tm-process-drawer-content {
+  overflow: hidden;
+}
+
+.tm-process-body-wrap {
+  margin-top: calc(10 * var(--u));
+  margin-left: calc(16 * var(--u));
+  padding-left: calc(14 * var(--u));
+  border-left: 2px solid rgba(0, 212, 255, 0.4);
+}
+
+.tm-process-text {
+  font-size: calc(12 * var(--u));
+  font-weight: 400;
+  line-height: 1.48;
+  color: rgba(245, 247, 250, 0.72);
+}
+
+/* Active State for Step */
+.tm-process-card.active {
+  background: rgba(7, 22, 40, 0.9);
+  border-color: rgba(0, 212, 255, 0.6);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 16px rgba(0, 212, 255, 0.15);
+}
+
+.tm-process-card.active .tm-process-number {
+  background-color: var(--color-cyan, #00d4ff);
+  color: #05070b;
+  border-color: var(--color-cyan, #00d4ff);
+  box-shadow: 0 0 14px rgba(0, 212, 255, 0.5);
+}
+
+.tm-process-card.active .tm-process-title {
+  color: var(--color-white, #f5f7fa);
+  font-weight: 700;
+}
+
+.tm-process-card.active .tm-process-badge {
+  color: var(--color-cyan, #00d4ff);
+  background: rgba(0, 212, 255, 0.15);
+}
+
+.tm-process-card.active .tm-process-drawer {
+  grid-template-rows: 1fr;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Rules
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .tm-hero-title {
+    font-size: calc(52 * var(--u));
+  }
+
+  .tm-br-desktop {
+    display: inline;
+  }
+
+  .tm-hero-subtitle {
+    font-size: calc(15 * var(--u));
+  }
+
+  .tm-process-container {
+    width: calc(100vw - 40px);
+    left: 20px;
+    bottom: 20px;
+  }
+
+  .pin-alpha, .pin-beta {
+    display: none;
+  }
+
+  .tm-hud-stamp {
+    top: calc(70 * var(--u));
+    right: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .tm-hero-title {
+    font-size: 38px;
+    line-height: 1.05;
+  }
+
+  .tm-hero-subtitle {
+    font-size: 14px;
+  }
+
+  .tm-hero-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .tm-btn-hero-primary,
+  .tm-btn-hero-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .tm-process-container {
+    display: none;
+  }
+}

@@ -1,0 +1,68 @@
+/* ==========================================================================
+   TrafficMind AI — Tactile Clay Transportation Design System
+   Warm unbleached canvas, solid carbon ink, architectural tactile rhythm
+   ========================================================================== */
+
+:root {
+  --color-canvas: #FFFAF0;
+  --color-surface-soft: #FAF5E8;
+  --color-surface-card: #F5F0E0;
+  --color-surface-strong: #EBE6D6;
+  --color-surface-dark: #0A1A1A;
+  --color-surface-dark-elevated: #1A2A2A;
+
+  --color-primary: #000000;
+  --color-body-strong: #1A1A1A;
+  --color-body: #3A3A3A;
+  --color-muted: #6A6A6A;
+  --color-muted-soft: #9A9A9A;
+  --color-hairline: #E5E5E5;
+  --color-hairline-soft: #F0F0F0;
+
+  --color-brand-teal: #1A3A3A;
+  --color-brand-pink: #FF4D8B;
+  --color-brand-lavender: #B8A4ED;
+  --color-brand-peach: #FFB084;
+  --color-brand-ochre: #E8B94A;
+  --color-brand-mint: #A4D4C5;
+  --color-brand-coral: #FF6B5A;
+  --color-success: #22C55E;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-canvas);
+  color: var(--color-body);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Material symbols outlined font settings */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Smooth transitions */
+a, button {
+  transition: all 0.15s ease-in-out;
+}

@@ -1,0 +1,191 @@
+/* ==========================================================================
+   DashboardView.css — Professional Operational Workspace Layout
+   ========================================================================== */
+
+.tm-dashboard-workspace {
+  min-height: 100vh;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  padding-top: 72px; /* Clears fixed 56px navbar + 16px space */
+  padding-bottom: 64px;
+}
+
+.tm-dashboard-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Top Navigation Bar */
+.tm-workspace-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.tm-btn-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
+  transition: all 0.15s ease;
+}
+
+.tm-btn-breadcrumb:hover {
+  color: var(--color-text-primary);
+  border-color: var(--color-border);
+  background: var(--color-surface-elevated);
+}
+
+.tm-workspace-context-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 4px;
+  padding: 3px 8px;
+  letter-spacing: 0.04em;
+}
+
+.context-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+/* Compact Page Heading (Section 8) */
+.tm-page-heading {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.tm-heading-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.tm-page-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.tm-prototype-status-chip {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-warning);
+  background: rgba(232, 169, 58, 0.1);
+  border: 1px solid rgba(232, 169, 58, 0.25);
+  border-radius: 4px;
+  padding: 2px 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tm-page-subtitle {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Error Notification */
+.tm-workspace-error-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(224, 90, 98, 0.1);
+  border: 1px solid rgba(224, 90, 98, 0.35);
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  color: var(--color-critical);
+  font-size: 13px;
+}
+
+.tm-error-details {
+  flex: 1;
+}
+
+.tm-btn-retry {
+  padding: 4px 12px;
+  background: rgba(224, 90, 98, 0.2);
+  border: 1px solid rgba(224, 90, 98, 0.4);
+  color: var(--color-text-primary);
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  transition: background 0.15s ease;
+}
+
+.tm-btn-retry:hover {
+  background: rgba(224, 90, 98, 0.3);
+}
+
+/* Workspace Stack */
+.tm-workspace-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.tm-workspace-card {
+  width: 100%;
+}
+
+/* Footer Notice */
+.tm-workspace-footer-notice {
+  margin-top: 48px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 16px 20px;
+}
+
+.tm-notice-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-warning);
+  margin-bottom: 6px;
+}
+
+.tm-notice-text {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .tm-page-title {
+    font-size: 22px;
+  }
+
+  .tm-dashboard-workspace {
+    padding-top: 64px;
+    padding-bottom: 32px;
+  }
+}

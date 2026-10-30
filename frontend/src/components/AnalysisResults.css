@@ -1,0 +1,540 @@
+/* ==========================================================================
+   AnalysisResults.css — Minimal Enterprise Traffic Intelligence Results
+   ========================================================================== */
+
+.tm-results-workspace {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  width: 100%;
+}
+
+/* ==========================================================================
+   1. Summary KPI Grid
+   ========================================================================== */
+.tm-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+.tm-kpi-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tm-kpi-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.tm-kpi-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tm-kpi-badge {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--color-accent);
+  background: var(--color-accent-subtle);
+  border: 1px solid rgba(39, 183, 216, 0.25);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.tm-kpi-value-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.tm-kpi-main-val {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.tm-kpi-unit {
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+.tm-kpi-sub {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+  margin: 0;
+  margin-top: auto;
+}
+
+/* Level Tags */
+.tm-level-tag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.status-low {
+  background: rgba(50, 168, 121, 0.12);
+  color: var(--color-success);
+  border: 1px solid rgba(50, 168, 121, 0.3);
+}
+
+.status-moderate {
+  background: rgba(232, 169, 58, 0.12);
+  color: var(--color-warning);
+  border: 1px solid rgba(232, 169, 58, 0.3);
+}
+
+.status-high {
+  background: rgba(224, 90, 98, 0.12);
+  color: var(--color-critical);
+  border: 1px solid rgba(224, 90, 98, 0.3);
+}
+
+/* Progress Track */
+.tm-kpi-progress-track {
+  height: 4px;
+  background: var(--color-bg-secondary);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.tm-kpi-progress-bar {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.tm-kpi-progress-bar.status-low {
+  background: var(--color-success);
+}
+
+.tm-kpi-progress-bar.status-moderate {
+  background: var(--color-warning);
+}
+
+.tm-kpi-progress-bar.status-high {
+  background: var(--color-critical);
+}
+
+/* Status Indicator */
+.tm-status-indicator-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-success);
+  background: rgba(50, 168, 121, 0.1);
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid rgba(50, 168, 121, 0.25);
+}
+
+.indicator-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-success);
+}
+
+.tm-status-meta-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.tm-status-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.tm-meta-k {
+  color: var(--color-text-muted);
+}
+
+.tm-meta-v {
+  font-family: var(--font-mono);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   2. Section Blocks & Vehicle Classification
+   ========================================================================== */
+.tm-section-block {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.tm-block-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.tm-block-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+  margin: 0 0 4px 0;
+}
+
+.tm-block-desc {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* Legend Pills */
+.tm-legend-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tm-legend-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  background: var(--color-bg-secondary);
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tm-legend-chip:hover {
+  background: var(--color-surface-elevated);
+}
+
+.chip-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.chip-name {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: capitalize;
+  color: var(--color-text-secondary);
+}
+
+/* Classification Grid */
+.tm-classes-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+.tm-class-card {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 6px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.15s ease;
+}
+
+.tm-class-card.has-count {
+  border-color: var(--color-border);
+  background: var(--color-surface-elevated);
+}
+
+.tm-class-card.targeted {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 1px var(--color-accent);
+}
+
+.tm-class-card.is-zero {
+  opacity: 0.55;
+}
+
+.tm-class-icon-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tm-class-info-cell {
+  display: flex;
+  flex-direction: column;
+}
+
+.tm-class-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-transform: capitalize;
+}
+
+.tm-class-count {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1.2;
+}
+
+/* ==========================================================================
+   3. Detection Visualization Viewport
+   ========================================================================== */
+.tm-vis-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tm-control-group {
+  display: inline-flex;
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--color-bg-secondary);
+}
+
+.tm-control-btn {
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  background: transparent;
+  transition: all 0.15s ease;
+}
+
+.tm-control-btn:hover {
+  color: var(--color-text-primary);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.tm-control-btn.active {
+  background: var(--color-surface-elevated);
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.tm-detection-viewport {
+  position: relative;
+  background: #06090E;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 360px;
+  max-height: 640px;
+}
+
+.tm-image-container,
+.tm-svg-overlay-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tm-detection-img {
+  max-width: 100%;
+  max-height: 640px;
+  object-fit: contain;
+  display: block;
+}
+
+.tm-svg-detection-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.tm-svg-box-group {
+  transition: opacity 0.15s ease;
+}
+
+/* ==========================================================================
+   4. Congestion Analysis & Signal Priority Assessment (2-Col)
+   ========================================================================== */
+.tm-analysis-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.tm-analysis-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tm-eval-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.tm-eval-label {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.tm-eval-value {
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  color: var(--color-text-primary);
+}
+
+.tm-explanation-box {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 6px;
+  padding: 12px 14px;
+}
+
+.tm-explanation-tag {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.tm-explanation-text {
+  font-size: 13px;
+  color: var(--color-text-primary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.tm-methodology-note {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* Recommendation Box */
+.tm-recommendation-box {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 14px 16px;
+}
+
+.tm-rec-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.tm-rec-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tm-rec-headline {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0 0 6px 0;
+  letter-spacing: -0.01em;
+}
+
+.tm-rec-detail {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* Operational Notice */
+.tm-disclaimer-notice {
+  background: rgba(232, 169, 58, 0.06);
+  border: 1px solid rgba(232, 169, 58, 0.2);
+  border-radius: 6px;
+  padding: 10px 14px;
+}
+
+.tm-disclaimer-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-warning);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 3px;
+}
+
+.tm-disclaimer-text {
+  font-size: 11.5px;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+@media (max-width: 960px) {
+  .tm-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tm-classes-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .tm-analysis-two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .tm-classes-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

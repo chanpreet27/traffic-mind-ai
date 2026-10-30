@@ -53,3 +53,5 @@ desktop.ini
 # Agent / Skills cache
 .agents/
 downloaded_skills/
+
+.vercel

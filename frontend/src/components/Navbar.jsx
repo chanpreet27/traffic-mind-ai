@@ -1,4 +1,5 @@
 import React from 'react';
+import logoUrl from '../assets/trafficmind-logo.png';
 
 export default function Navbar({ currentPath, onNavigate }) {
   const isOverview = currentPath === '/' || currentPath === 'overview';
@@ -16,7 +17,7 @@ export default function Navbar({ currentPath, onNavigate }) {
           <img 
             alt="TrafficMind AI Logo" 
             className="h-10 w-auto object-contain rounded-md" 
-            src="/trafficmind-logo.png" 
+            src={logoUrl} 
           />
           <span className="bg-surface-card text-body-strong rounded-full px-2.5 py-0.5 font-caption-uppercase text-caption-uppercase text-[11px] border border-hairline/60">
             PROTOTYPE

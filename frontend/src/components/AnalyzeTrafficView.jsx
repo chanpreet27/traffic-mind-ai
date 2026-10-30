@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import logoUrl from '../assets/trafficmind-logo.png';
 
 const DEFAULT_WORKSPACE_IMG = "https://lh3.googleusercontent.com/aida-public/AB6AXuA_y5GJMTU-i0lH8DN2rsMZJrOuBKELpLVrlwIrRsYD2PzjeXI8H6gTVFZwLt8-5HQelrjyVQyf68U3U7sUH-ignuDHKYDcvshVFHWC1OdnBpYcmLlMzwS9JM8dl8by2YAFC_L1U7i5Ug1h7IPwmVyTg5L00AFf1FW765E-XiRPULXhiJbkI-o6oHprqswjgJR7obWCRFCgOEuKuy-ih24_31rHSULOy8NnXKL3pEc";
 const DEFAULT_STAGE_IMG = "https://lh3.googleusercontent.com/aida-public/AB6AXuBuC02RuewM9JC3hQ-xXiYBEUKfnO804Wft76krUOR19lccjKOHJvLf659w-G62BSwQ_rt2FHwiSfbq_9aTwv0tJA1Z7wIRaH6DSkuC3pU49dnjVUwEoveu_Za_FbdyZJyV7-rrq9AT5__5liFzg652XfHwpCkUNdNiEKCKGdnvBojipwHPKkTTNSiEF4erxitKvORo3OHKetUdYUIBDdf-RUhKwy9EW1nFbH3PiSY";
@@ -169,10 +170,24 @@ export default function AnalyzeTrafficView() {
         detections: formattedDetections,
       });
 
-      setShowOverlay(true);
     } catch (err) {
-      console.error('Failed to run traffic analysis:', err);
-      setAnalysisError(err.message || 'Detection failed');
+      console.warn('Backend inference unavailable, switching to client simulation:', err);
+      // Fallback for static hosts (e.g. GitHub Pages) where Python FastAPI backend is not running
+      const fallbackDetections = [
+        { class_name: 'car', confidence: 0.94, box: [192, 410, 403, 604], top: '38%', left: '10%', width: '12%', height: '18%', color: '#1A3A3A' },
+        { class_name: 'car', confidence: 0.91, box: [652, 583, 883, 820], top: '54%', left: '34%', width: '14%', height: '22%', color: '#1A3A3A' },
+        { class_name: 'bus', confidence: 0.88, box: [422, 302, 806, 712], top: '28%', left: '22%', width: '20%', height: '38%', color: '#FF4D8B' },
+        { class_name: 'truck', confidence: 0.85, box: [940, 712, 1228, 993], top: '66%', left: '49%', width: '16%', height: '26%', color: '#E8B94A' },
+        { class_name: 'motorcycle', confidence: 0.78, box: [921, 518, 1056, 648], top: '48%', left: '48%', width: '8%', height: '12%', color: '#B8A4ED' },
+      ];
+      setAnalysisResult({
+        isCustom: true,
+        fileName: fileToAnalyze.name,
+        resolution: `${(fileToAnalyze.size / (1024 * 1024)).toFixed(1)} MB (Client Simulation)`,
+        detections: fallbackDetections,
+      });
+      setShowOverlay(true);
+      setAnalysisError('Static Web Preview: Running client-side simulation. For live YOLOv8 nano inference, run the local backend server.');
     } finally {
       setIsAnalyzing(false);
     }
@@ -272,9 +287,9 @@ export default function AnalyzeTrafficView() {
           <div className="flex flex-col gap-space-xs">
             <div className="mb-2">
               <img 
-                src="/trafficmind-logo.png" 
+                src={logoUrl} 
                 alt="TrafficMind AI" 
-                className="h-10 w-auto object-contain rounded-md"
+                className="h-10 w-auto object-contain rounded-md" 
               />
             </div>
             <div className="flex items-center gap-space-sm mb-1">

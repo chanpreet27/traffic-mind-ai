@@ -1,4 +1,5 @@
 import React from 'react';
+import logoUrl from '../assets/trafficmind-logo.png';
 
 const DIORAMA_IMG = "https://lh3.googleusercontent.com/aida-public/AB6AXuD8XyHqkx9BZymL6RUOZEiimb6c734z0LV9ovcxJzuXQrZRQC8GINf9ttMiSrHyQrWgYqINEBUy3w4mhpQtOovn8apobAYPSgC0jgDX5cvYME4l22ggf5Jra1LyMCPlJqrS4lzpiz-fuZrRDDCmv10eC6-o0nYLsXcEUf4qltthYSnaSujuNk1gEP4Ir9UyaUXiKMNW_58MHhsBkHBuF2ZO7hESYvie-up7WoALFNc";
 const SAMPLE_INTERSECTION_IMG = "https://lh3.googleusercontent.com/aida-public/AB6AXuCjmIA7VhxHrdXDWoRzyKoZUq_vK1MeRv402gCTK2TnEK5qiiPiQssIU_CIr4JD-BIZgrFGsU-gPxokOVYcc2X4Pzgs5NfgE4-so9ZA5dSufUGs5BhbJ0bnwaLl9ccAvkjdBQQVjrIna1_vedNvSz3cF8z1Pu6c1GIkwDieO3rml2uN4XtABzYT9dyY00cmT8sXhxZf85oHCqyQwqD2uFMwlp9NRxzHV-SLcPQTG_Y";
@@ -13,7 +14,7 @@ export default function OverviewView({ onNavigate }) {
           <div className="lg:col-span-7 flex flex-col items-start pr-0 lg:pr-space-md">
             <div className="mb-4">
               <img 
-                src="/trafficmind-logo.png" 
+                src={logoUrl} 
                 alt="TrafficMind AI" 
                 className="h-12 sm:h-14 w-auto object-contain rounded-lg"
               />

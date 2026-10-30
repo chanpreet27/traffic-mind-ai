@@ -1,1116 +1,155 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TrafficMind AI — The Future of Intelligent Traffic</title>
-  <link rel="icon" type="image/png" href="/trafficmind-logo.png">
-  
-  <!-- Font: Inter Tight Variable -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
-
-  <style>
-    /* ==========================================================================
-       Design System & Variables (UI/UX Pro Max & Motion Doctrine)
-       ========================================================================== */
-    :root {
-      /* Responsive Unit Token */
-      --u: clamp(0.72px, min(calc(100vw / 1440), calc(100vh / 960)), 1.5px);
-
-      /* Core Color Palette */
-      --color-night: #0f1626;
-      --color-ink: #f4f6fa;
-      --color-ink-72: rgba(244, 246, 250, 0.72);
-      --color-ink-46: rgba(244, 246, 250, 0.46);
-      --color-pill-grey: #2a3245;
-      --color-lime: #c6ff2e;
-      --color-lime-hover: #b5ee20;
-      --color-cyan: #3fd8ff;
-      --color-hairline: rgba(255, 255, 255, 0.22);
-      --color-hairline-light: rgba(255, 255, 255, 0.12);
-
-      /* Typography */
-      --font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
-
-    @media (max-width: 760px) {
-      :root {
-        --u: 1px;
-      }
-    }
-
-    /* Reset & Base Styles */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    html, body {
-      width: 100%;
-      min-height: 100%;
-      background-color: var(--color-night);
-      color: var(--color-ink);
-      font-family: var(--font-family);
-      overflow-x: hidden;
-      selection-background-color: var(--color-lime);
-      selection-color: var(--color-night);
-    }
-
-    ::selection {
-      background: var(--color-lime);
-      color: var(--color-night);
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button {
-      font-family: inherit;
-      cursor: pointer;
-      border: none;
-      outline: none;
-      background: none;
-    }
-
-    /* Focus accessibility ring */
-    a:focus-visible, button:focus-visible {
-      outline: 2px solid var(--color-cyan);
-      outline-offset: 2px;
-    }
-
-    /* ==========================================================================
-       Loader Component
-       ========================================================================== */
-    .loader {
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      background-color: var(--color-night);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      opacity: 1;
-      visibility: visible;
-      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s ease;
-      pointer-events: all;
-    }
-
-    .loader.fade-out {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    .loader-stage {
-      position: relative;
-      width: 220px;
-      height: 220px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .loader-ellipses {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-
-    .loader-mark {
-      position: relative;
-      width: 64px;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: loaderSpin 1.6s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
-      transform-origin: center center;
-    }
-
-    @keyframes loaderSpin {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-
-    .loader-text {
-      margin-top: 24px;
-      font-size: calc(11.5 * var(--u));
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--color-ink-46);
-    }
-
-    /* ==========================================================================
-       Scroll Track & Sticky Scene Structure
-       ========================================================================== */
-    .track {
-      position: relative;
-      height: 420vh;
-      width: 100%;
-    }
-
-    .scene {
-      position: sticky;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-      background: var(--color-night);
-    }
-
-    /* Background Video Layer */
-    .scene-video-wrapper {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    .scene-video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center center;
-      display: block;
-      transform: translateZ(0);
-      will-change: transform;
-    }
-
-    /* Ambient Film Lighting / Vignette Shade */
-    .scene-shade {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      background: linear-gradient(
-        180deg,
-        rgba(15, 22, 38, 0.55) 0%,
-        rgba(15, 22, 38, 0.0) 34%,
-        rgba(15, 22, 38, 0.0) 70%,
-        rgba(15, 22, 38, 0.50) 100%
-      );
-    }
-
-    /* ==========================================================================
-       Navigation Bar (Fixed, 58u tall)
-       ========================================================================== */
-    .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: calc(58 * var(--u));
-      z-index: 60;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 calc(36 * var(--u));
-      border-bottom: 1px solid var(--color-hairline-light);
-      background: rgba(15, 22, 38, 0.35);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      transition: background 0.3s ease;
-    }
-
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: calc(28 * var(--u));
-      flex: 1;
-    }
-
-    .nav-link {
-      font-size: calc(11.5 * var(--u));
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--color-ink-72);
-      transition: color 0.2s ease;
-      position: relative;
-    }
-
-    .nav-link:hover {
-      color: var(--color-ink);
-    }
-
-    .nav-center {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex: 0 0 auto;
-    }
-
-    .wordmark {
-      font-size: calc(19 * var(--u));
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      color: var(--color-ink);
-      text-transform: uppercase;
-      display: flex;
-      align-items: center;
-      gap: calc(6 * var(--u));
-    }
-
-    .wordmark-dot {
-      width: calc(5 * var(--u));
-      height: calc(5 * var(--u));
-      background-color: var(--color-cyan);
-      border-radius: 50%;
-      box-shadow: 0 0 calc(8 * var(--u)) var(--color-cyan);
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: calc(12 * var(--u));
-      flex: 1;
-    }
-
-    .btn-pill {
-      height: calc(40 * var(--u));
-      border-radius: 9999px;
-      font-size: calc(11.5 * var(--u));
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 calc(20 * var(--u));
-      transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s ease, background-color 0.2s ease;
-      position: relative;
-      white-space: nowrap;
-    }
-
-    .btn-pill:hover {
-      transform: translateY(-1px);
-    }
-
-    .btn-pill:active {
-      transform: translateY(0);
-    }
-
-    .btn-pill-grey {
-      background-color: var(--color-pill-grey);
-      color: var(--color-ink);
-      border: 1px solid var(--color-hairline);
-    }
-
-    .btn-pill-grey:hover {
-      background-color: #364057;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-    }
-
-    .btn-pill-lime {
-      background-color: var(--color-lime);
-      color: var(--color-night);
-      font-weight: 700;
-      box-shadow: 0 2px 10px rgba(198, 255, 46, 0.25);
-    }
-
-    .btn-pill-lime:hover {
-      background-color: var(--color-lime-hover);
-      box-shadow: 0 4px 16px rgba(198, 255, 46, 0.45);
-    }
-
-    /* ==========================================================================
-       Hero Copy Block (Fixed, Centered, 92u from top, 3D Perspective Stage)
-       ========================================================================== */
-    .hero-stage {
-      position: fixed;
-      top: calc(92 * var(--u));
-      left: 0;
-      right: 0;
-      z-index: 40;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      perspective: calc(900 * var(--u));
-      pointer-events: none;
-      padding: 0 calc(24 * var(--u));
-    }
-
-    .headline-block {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      transform-origin: center bottom;
-      transform-style: preserve-3d;
-      will-change: transform, opacity;
-      max-width: calc(1180 * var(--u));
-      pointer-events: auto;
-    }
-
-    .headline {
-      font-size: calc(84 * var(--u));
-      font-weight: 600;
-      line-height: 0.96;
-      letter-spacing: -0.045em;
-      color: var(--color-ink);
-      text-wrap: balance;
-      margin-bottom: calc(26 * var(--u));
-      text-shadow: 0 calc(4 * var(--u)) calc(30 * var(--u)) rgba(15, 22, 38, 0.85);
-    }
-
-    .subline {
-      font-size: calc(18 * var(--u));
-      font-weight: 400;
-      line-height: 1.48;
-      color: var(--color-ink-72);
-      max-width: calc(760 * var(--u));
-      text-wrap: balance;
-      text-shadow: 0 calc(2 * var(--u)) calc(12 * var(--u)) rgba(15, 22, 38, 0.85);
-    }
-
-    /* ==========================================================================
-       Scroll Cue (Centered, 36u from bottom)
-       ========================================================================== */
-    .scroll-cue {
-      position: fixed;
-      bottom: calc(36 * var(--u));
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 40;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      pointer-events: auto;
-      cursor: pointer;
-      user-select: none;
-      will-change: opacity;
-    }
-
-    .scroll-cue-text {
-      font-size: calc(11.2 * var(--u));
-      font-weight: 600;
-      letter-spacing: 0.055em;
-      text-transform: uppercase;
-      color: var(--color-ink-72);
-      margin-bottom: calc(6 * var(--u));
-      white-space: nowrap;
-      transition: color 0.2s ease;
-    }
-
-    .scroll-cue:hover .scroll-cue-text {
-      color: var(--color-ink);
-    }
-
-    .scroll-cue-line-track {
-      width: 100%;
-      height: 1px;
-      background-color: var(--color-hairline-light);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .scroll-cue-line {
-      width: 100%;
-      height: 1px;
-      background-color: var(--color-ink-72);
-      transform-origin: left center;
-      will-change: transform;
-    }
-
-    /* ==========================================================================
-       Process List (Fixed, Bottom Left at 36u / 28u, 430u wide)
-       ========================================================================== */
-    .process-container {
-      position: fixed;
-      left: calc(36 * var(--u));
-      bottom: calc(28 * var(--u));
-      width: calc(430 * var(--u));
-      z-index: 45;
-      display: flex;
-      flex-direction: column;
-      gap: calc(10 * var(--u));
-      will-change: transform, opacity;
-      pointer-events: auto;
-    }
-
-    .process-card {
-      background: rgba(15, 22, 38, 0.65);
-      border: 1px solid var(--color-hairline);
-      border-radius: calc(12 * var(--u));
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      padding: calc(10 * var(--u)) calc(14 * var(--u));
-      display: flex;
-      flex-direction: column;
-      cursor: pointer;
-      transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
-    }
-
-    .process-card:hover {
-      border-color: rgba(255, 255, 255, 0.35);
-      background: rgba(22, 32, 54, 0.75);
-    }
-
-    .process-header {
-      display: flex;
-      align-items: center;
-      gap: calc(14 * var(--u));
-    }
-
-    /* Number Cell: 36u square */
-    .process-number {
-      width: calc(36 * var(--u));
-      height: calc(36 * var(--u));
-      flex-shrink: 0;
-      border-radius: calc(8 * var(--u));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: calc(13 * var(--u));
-      font-weight: 500;
-      color: var(--color-ink-72);
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--color-hairline);
-      transition: background-color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-                  color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-                  border-color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-                  box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-                  transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    /* Title */
-    .process-title {
-      font-size: calc(12.5 * var(--u));
-      font-weight: 500;
-      color: var(--color-ink-72);
-      letter-spacing: -0.01em;
-      transition: font-size 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-                  color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-                  font-weight 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    /* Accordion Drawer */
-    .process-drawer {
-      display: grid;
-      grid-template-rows: 0fr;
-      transition: grid-template-rows 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
-    }
-
-    .process-drawer-content {
-      overflow: hidden;
-    }
-
-    .process-body-wrap {
-      margin-top: calc(12 * var(--u));
-      margin-left: calc(18 * var(--u));
-      padding-left: calc(16 * var(--u));
-      border-left: 1px solid var(--color-hairline);
-    }
-
-    .process-desc {
-      font-size: calc(14 * var(--u));
-      font-weight: 400;
-      line-height: 1.5;
-      color: var(--color-ink-72);
-      padding-bottom: calc(6 * var(--u));
-    }
-
-    /* ACTIVE ROW STATE */
-    .process-card.active {
-      background: rgba(20, 29, 48, 0.88);
-      border-color: rgba(255, 255, 255, 0.4);
-      box-shadow: 0 calc(8 * var(--u)) calc(24 * var(--u)) rgba(0, 0, 0, 0.45);
-    }
-
-    .process-card.active .process-number {
-      background: #f4f6fa;
-      color: #0f1626;
-      font-weight: 700;
-      border-color: #ffffff;
-      box-shadow: 0 0 calc(14 * var(--u)) rgba(255, 255, 255, 0.35);
-      transform: scale(1.04);
-    }
-
-    .process-card.active .process-title {
-      font-size: calc(18 * var(--u));
-      font-weight: 600;
-      color: #ffffff;
-      letter-spacing: -0.02em;
-    }
-
-    .process-card.active .process-drawer {
-      grid-template-rows: 1fr;
-    }
-
-    /* ==========================================================================
-       Mobile & Responsive (Phone <= 760px)
-       ========================================================================== */
-    @media (max-width: 760px) {
-      .nav {
-        height: 64px;
-        padding: 0 18px;
-      }
-
-      .nav-left {
-        display: none !important;
-      }
-
-      .nav-center {
-        flex: 1;
-        justify-content: flex-start;
-      }
-
-      .wordmark {
-        font-size: 19px;
-      }
-
-      .nav-right {
-        flex: 0 0 auto;
-        gap: 8px;
-      }
-
-      .btn-pill {
-        height: 34px;
-        padding: 0 14px;
-        font-size: 11px;
-      }
-
-      .hero-stage {
-        top: 96px;
-        padding: 0 18px;
-      }
-
-      .headline {
-        font-size: clamp(38px, 11vw, 48px);
-        margin-bottom: 16px;
-      }
-
-      .subline {
-        font-size: 15px;
-        max-width: 34ch;
-        line-height: 1.45;
-      }
-
-      .scroll-cue {
-        display: none; /* Hide cue on phone to prioritize process list */
-      }
-
-      .process-container {
-        left: 18px;
-        right: 18px;
-        width: calc(100% - 36px);
-        bottom: 22px;
-        gap: 8px;
-      }
-
-      .process-card {
-        padding: 8px 12px;
-        border-radius: 10px;
-      }
-
-      .process-number {
-        width: 30px;
-        height: 30px;
-        font-size: 12px;
-      }
-
-      .process-title {
-        font-size: 13px;
-      }
-
-      .process-card.active .process-title {
-        font-size: 15px;
-      }
-
-      .process-desc {
-        font-size: 12.5px;
-        line-height: 1.42;
-      }
-    }
-
-    /* ==========================================================================
-       Reduced Motion Accessibility Mode
-       ========================================================================== */
-    @media (prefers-reduced-motion: reduce) {
-      .loader-mark {
-        animation: none !important;
-      }
-
-      .loader, .process-card, .process-number, .process-title, .process-drawer, .btn-pill {
-        transition: none !important;
-      }
-    }
-  </style>
-</head>
-<body>
-
-  <!-- ==========================================================================
-       Loader Panel
-       ========================================================================== -->
-  <aside id="loader" class="loader" aria-label="Loading NORVA Night City Scene">
-    <div class="loader-stage">
-      <!-- Dotted Ellipses -->
-      <svg class="loader-ellipses" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <!-- Wide Ellipse -->
-        <ellipse cx="110" cy="110" rx="92" ry="38" stroke="rgba(244, 246, 250, 0.24)" stroke-width="1.2" stroke-dasharray="3 5" />
-        <!-- Circular Ellipse -->
-        <circle cx="110" cy="110" r="54" stroke="rgba(63, 216, 255, 0.32)" stroke-width="1.2" stroke-dasharray="2 4" />
-      </svg>
-
-      <!-- Center Spinning Mark: Six Cyan Squares in Ring + Lime Chevron -->
-      <div class="loader-mark" aria-hidden="true">
-        <svg viewBox="0 0 64 64" width="64" height="64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- 6 Cyan Squares arranged in a ring (R=22) -->
-          <!-- 0 deg (top): 32, 10 -->
-          <rect x="29.5" y="7.5" width="5" height="5" fill="#3fd8ff" rx="1" />
-          <!-- 60 deg: 51, 21 -->
-          <rect x="48.5" y="18.5" width="5" height="5" fill="#3fd8ff" rx="1" />
-          <!-- 120 deg: 51, 43 -->
-          <rect x="48.5" y="40.5" width="5" height="5" fill="#3fd8ff" rx="1" />
-          <!-- 180 deg (bottom): 32, 54 -->
-          <rect x="29.5" y="51.5" width="5" height="5" fill="#3fd8ff" rx="1" />
-          <!-- 240 deg: 13, 43 -->
-          <rect x="10.5" y="40.5" width="5" height="5" fill="#3fd8ff" rx="1" />
-          <!-- 300 deg: 13, 21 -->
-          <rect x="10.5" y="18.5" width="5" height="5" fill="#3fd8ff" rx="1" />
-
-          <!-- Lime Chevron pointing right-downward in center -->
-          <path d="M26 27 L34 32 L26 37" stroke="#c6ff2e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-      </div>
-    </div>
-    <div class="loader-text">Initializing Isometric Camera</div>
-  </aside>
-
-  <!-- ==========================================================================
-       Fixed Navigation
-       ========================================================================== -->
-  <header class="nav" role="banner">
-    <nav class="nav-left" aria-label="Main Navigation">
-      <a href="/" class="nav-link">Overview</a>
-      <a href="/#features" class="nav-link">Features</a>
-      <a href="/#how-it-works" class="nav-link">How It Works</a>
-      <a href="/#preview" class="nav-link">System Preview</a>
-    </nav>
-
-    <div class="nav-center">
-      <a href="/" class="wordmark" aria-label="TrafficMind AI Home" style="display: inline-flex; align-items: center;">
-        <img src="/trafficmind-logo.png" alt="TrafficMind AI" style="height: 36px; width: auto; object-fit: contain; border-radius: 6px;" />
-      </a>
-    </div>
-
-    <div class="nav-right">
-      <div style="font-size: calc(10.5 * var(--u)); font-weight: 700; color: #00d4ff; background: rgba(0, 212, 255, 0.1); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 9999px; padding: calc(6 * var(--u)) calc(12 * var(--u));">AI PROTOTYPE</div>
-      <a href="/dashboard" class="btn-pill btn-pill-lime" style="background-color: #00d4ff; color: #05070b; box-shadow: 0 2px 14px rgba(0, 212, 255, 0.4);">Open Dashboard →</a>
-    </div>
-  </header>
-
-  <!-- ==========================================================================
-       Main Scroll Track & Sticky Hero Scene
-       ========================================================================== -->
-  <main class="track" id="hero-track">
-    <div class="scene" aria-hidden="true">
-      
-      <!-- Video Background -->
-      <div class="scene-video-wrapper">
-        <video
-          id="hero-video"
-          class="scene-video"
-          playsinline
-          muted
-          preload="auto"
-          poster="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/33150b94-09f7-47da-a7c9-3ae76c2dd7eb.jpg"
-          aria-label="3D Isometric miniature night city glide"
-        >
-          <!-- Source populated dynamically via JS for precision device targeting -->
-          <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/65fdef53-5686-4659-8761-52d61bf1a4f7.mp4" type="video/mp4" media="(min-width: 901px)">
-          <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/9a30e5e9-9f03-4755-9bc1-7bcf1510aab3.mp4" type="video/mp4" media="(max-width: 900px)">
-        </video>
-      </div>
-
-      <!-- Film Lighting Overlay -->
-      <div class="scene-shade"></div>
-
-      <!-- Hero Copy Stage (Perspective 900u) -->
-      <section class="hero-stage" aria-label="Hero Introduction">
-        <div class="headline-block" id="headline-block">
-          <div style="font-size: calc(11 * var(--u)); font-weight: 700; letter-spacing: 0.08em; color: #00d4ff; margin-bottom: calc(14 * var(--u));">AI-POWERED TRAFFIC INTELLIGENCE</div>
-          <h1 class="headline">
-            The Future of<br>Intelligent Traffic.
-          </h1>
-          <p class="subline">
-            Analyze traffic. Understand congestion. Make smarter signal decisions.<br>
-            TrafficMind AI transforms single-frame traffic images into actionable flow insights<br>
-            using deep vehicle detection and density heuristics.
-          </p>
-          <div style="display: flex; gap: calc(14 * var(--u)); margin-top: calc(24 * var(--u));">
-            <a href="/dashboard" class="btn-pill" style="background: #00d4ff; color: #05070b; font-weight: 700; height: calc(44 * var(--u)); padding: 0 calc(24 * var(--u)); box-shadow: 0 4px 18px rgba(0, 212, 255, 0.4);">Analyze Traffic →</a>
-            <a href="/#features" class="btn-pill btn-pill-grey" style="height: calc(44 * var(--u)); padding: 0 calc(20 * var(--u));">Explore Features</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- Scroll Cue -->
-      <div class="scroll-cue" id="scroll-cue" role="button" aria-label="Scroll to discover process">
-        <span class="scroll-cue-text">Scroll to Discover Traffic Intelligence</span>
-        <div class="scroll-cue-line-track">
-          <div class="scroll-cue-line" id="scroll-cue-line"></div>
-        </div>
-      </div>
-
-      <!-- Process List (4 Steps) -->
-      <nav class="process-container" id="process-list" aria-label="Traffic Intelligence Steps">
-        
-        <!-- Step 01 -->
-        <article class="process-card active" id="process-card-1" data-step="1">
-          <div class="process-header">
-            <div class="process-number">01</div>
-            <h2 class="process-title">Image Ingestion</h2>
-          </div>
-          <div class="process-drawer">
-            <div class="process-drawer-content">
-              <div class="process-body-wrap">
-                <p class="process-desc">
-                  Single-frame intersection or aerial traffic capture with automated resolution scaling and noise filtering.
-                </p>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <!-- Step 02 -->
-        <article class="process-card" id="process-card-2" data-step="2">
-          <div class="process-header">
-            <div class="process-number">02</div>
-            <h2 class="process-title">Neural Detection</h2>
-          </div>
-          <div class="process-drawer">
-            <div class="process-drawer-content">
-              <div class="process-body-wrap">
-                <p class="process-desc">
-                  Deep neural network inference detects and classifies cars, buses, trucks, and motorcycles with sub-second bounding boxes.
-                </p>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <!-- Step 03 -->
-        <article class="process-card" id="process-card-3" data-step="3">
-          <div class="process-header">
-            <div class="process-number">03</div>
-            <h2 class="process-title">Density Scoring</h2>
-          </div>
-          <div class="process-drawer">
-            <div class="process-drawer-content">
-              <div class="process-body-wrap">
-                <p class="process-desc">
-                  Calculates congestion metrics from 0 to 100 based on classified vehicle weights, spatial cluster density, and capacity.
-                </p>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <!-- Step 04 -->
-        <article class="process-card" id="process-card-4" data-step="4">
-          <div class="process-header">
-            <div class="process-number">04</div>
-            <h2 class="process-title">Adaptive Timing</h2>
-          </div>
-          <div class="process-drawer">
-            <div class="process-drawer-content">
-              <div class="process-body-wrap">
-                <p class="process-desc">
-                  Recommends signal priority levels (Low, Medium, High) with dynamic green-phase timing advisories to prevent gridlock.
-                </p>
-              </div>
-            </div>
-          </div>
-        </article>
-
-      </nav>
-
-    </div>
-  </main>
-
-  <!-- ==========================================================================
-       Vanilla JavaScript Controller
-       ========================================================================== -->
-  <script>
-    (function() {
-      'use strict';
-
-      // Element References
-      const track = document.getElementById('hero-track');
-      const video = document.getElementById('hero-video');
-      const headlineBlock = document.getElementById('headline-block');
-      const scrollCue = document.getElementById('scroll-cue');
-      const scrollCueLine = document.getElementById('scroll-cue-line');
-      const processList = document.getElementById('process-list');
-      const loader = document.getElementById('loader');
-      const step1Card = document.getElementById('process-card-1');
-      const step2Card = document.getElementById('process-card-2');
-      const step3Card = document.getElementById('process-card-3');
-      const step4Card = document.getElementById('process-card-4');
-      const processCards = [step1Card, step2Card, step3Card, step4Card];
-
-      // Configuration & State
-      const DURATION = 5.04; // Video duration in seconds
-      const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const isRecMode = new URLSearchParams(window.location.search).get('rec') === '1';
-
-      let targetTime = 0;
-      let currentTime = 0;
-      let isSeeking = false;
-      let pendingSeekTime = null;
-      let loaderDismissed = false;
-
-      // ------------------------------------------------------------------------
-      // Responsive Video Source Selection
-      // ------------------------------------------------------------------------
-      const DESKTOP_VIDEO = 'https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/65fdef53-5686-4659-8761-52d61bf1a4f7.mp4';
-      const MOBILE_VIDEO = 'https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/9a30e5e9-9f03-4755-9bc1-7bcf1510aab3.mp4';
-
-      function setupVideoSource() {
-        const selectedSrc = window.innerWidth <= 900 ? MOBILE_VIDEO : DESKTOP_VIDEO;
-        if (!video.src || video.src !== selectedSrc) {
-          video.src = selectedSrc;
-          video.load();
-        }
-      }
-      setupVideoSource();
-      window.addEventListener('resize', () => {
-        // Debounced resize check
-        clearTimeout(window.__norvaResizeTimer);
-        window.__norvaResizeTimer = setTimeout(setupVideoSource, 250);
-      }, { passive: true });
-
-      // ------------------------------------------------------------------------
-      // Loader Dismissal Logic
-      // ------------------------------------------------------------------------
-      function dismissLoader() {
-        if (loaderDismissed || !loader) return;
-        loaderDismissed = true;
-        setTimeout(() => {
-          loader.classList.add('fade-out');
-          setTimeout(() => {
-            if (loader && loader.parentNode) {
-              loader.parentNode.removeChild(loader);
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="./trafficmind-logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TrafficMind AI — AI-Powered Traffic Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <style>@layer base{html,body{margin:0;padding:0}body{overscroll-behavior:none}}::-webkit-scrollbar{display:none}</style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+              "primary": "#000000",
+              "on-background": "#1d1c16",
+              "outline": "#747878",
+              "body-strong": "#1A1A1A",
+              "brand-ochre": "#E8B94A",
+              "success": "#22C55E",
+              "hairline": "#E5E5E5",
+              "hairline-soft": "#F0F0F0",
+              "tertiary-fixed": "#ffd9e0",
+              "brand-teal": "#1A3A3A",
+              "tertiary-container": "#3f0019",
+              "on-secondary": "#ffffff",
+              "brand-peach": "#FFB084",
+              "secondary-fixed": "#c7e9e8",
+              "tertiary-fixed-dim": "#ffb1c3",
+              "brand-coral": "#FF6B5A",
+              "surface-variant": "#e7e2d8",
+              "on-primary-fixed-variant": "#474646",
+              "canvas": "#FFFAF0",
+              "surface-soft": "#FAF5E8",
+              "on-tertiary-fixed-variant": "#8f0042",
+              "surface-container-highest": "#e7e2d8",
+              "primary-disabled": "#E5E5E5",
+              "secondary-container": "#c4e6e6",
+              "muted": "#6A6A6A",
+              "muted-soft": "#9A9A9A",
+              "inverse-surface": "#32302a",
+              "surface-dim": "#dedad0",
+              "on-error-container": "#93000a",
+              "brand-mint": "#A4D4C5",
+              "surface-container-low": "#f8f3e9",
+              "secondary": "#446464",
+              "surface-container-high": "#ece8de",
+              "brand-lavender": "#B8A4ED",
+              "warning": "#F59E0B",
+              "on-secondary-fixed": "#002020",
+              "primary-active": "#1F1F1F",
+              "on-primary-container": "#858383",
+              "error": "#EF4444",
+              "on-error": "#ffffff",
+              "surface-dark": "#0A1A1A",
+              "surface-dark-elevated": "#1A2A2A",
+              "on-tertiary-fixed": "#3f0019",
+              "outline-variant": "#c4c7c7",
+              "brand-pink": "#FF4D8B",
+              "primary-container": "#1c1b1b",
+              "primary-fixed-dim": "#c9c6c5",
+              "on-tertiary-container": "#ed3e7e",
+              "inverse-primary": "#c9c6c5",
+              "on-tertiary": "#ffffff",
+              "on-primary": "#ffffff",
+              "surface": "#fef9ef",
+              "tertiary": "#000000",
+              "background": "#fef9ef",
+              "surface-strong": "#EBE6D6",
+              "secondary-fixed-dim": "#abcdcc",
+              "on-secondary-container": "#496868",
+              "error-container": "#ffdad6",
+              "surface-tint": "#5f5e5e",
+              "surface-container": "#f2ede4",
+              "on-surface": "#1d1c16",
+              "on-secondary-fixed-variant": "#2d4c4c",
+              "surface-bright": "#fef9ef",
+              "surface-container-lowest": "#ffffff",
+              "inverse-on-surface": "#f5f0e6",
+              "on-surface-variant": "#444748",
+              "on-primary-fixed": "#1c1b1b",
+              "body": "#3A3A3A",
+              "surface-card": "#F5F0E0",
+              "primary-fixed": "#e5e2e1"
+            },
+            "borderRadius": {
+              "DEFAULT": "0.25rem",
+              "sm": "0.25rem",
+              "md": "0.5rem",
+              "lg": "0.5rem",
+              "xl": "0.75rem",
+              "2xl": "1rem",
+              "3xl": "1.5rem",
+              "full": "9999px"
+            },
+            "spacing": {
+              "space-xs": "0.25rem",
+              "space-sm": "0.5rem",
+              "space-md": "1rem",
+              "space-lg": "1.5rem",
+              "space-xl": "2rem",
+              "margin": "2rem",
+              "gutter": "1.5rem"
+            },
+            "fontFamily": {
+              "body-md": ["Inter", "sans-serif"],
+              "title-lg": ["Inter", "sans-serif"],
+              "display-sm": ["Inter", "sans-serif"],
+              "title-sm": ["Inter", "sans-serif"],
+              "display-xl": ["Inter", "sans-serif"],
+              "button": ["Inter", "sans-serif"],
+              "display-lg-mobile": ["Inter", "sans-serif"],
+              "nav-link": ["Inter", "sans-serif"],
+              "display-xl-mobile": ["Inter", "sans-serif"],
+              "display-lg": ["Inter", "sans-serif"],
+              "caption": ["Inter", "sans-serif"],
+              "title-md": ["Inter", "sans-serif"],
+              "display-md": ["Inter", "sans-serif"],
+              "caption-uppercase": ["Inter", "sans-serif"],
+              "body-sm": ["Inter", "sans-serif"]
+            },
+            "fontSize": {
+              "body-md": ["16px", { "lineHeight": "25px", "letterSpacing": "0px", "fontWeight": "400" }],
+              "title-lg": ["24px", { "lineHeight": "31px", "letterSpacing": "-0.3px", "fontWeight": "600" }],
+              "display-sm": ["32px", { "lineHeight": "36px", "letterSpacing": "-0.5px", "fontWeight": "500" }],
+              "title-sm": ["16px", { "lineHeight": "22px", "letterSpacing": "0px", "fontWeight": "600" }],
+              "display-xl": ["72px", { "lineHeight": "72px", "letterSpacing": "-2.5px", "fontWeight": "500" }],
+              "button": ["14px", { "lineHeight": "14px", "letterSpacing": "0px", "fontWeight": "600" }],
+              "display-lg-mobile": ["32px", { "lineHeight": "36px", "letterSpacing": "-1px", "fontWeight": "500" }],
+              "nav-link": ["14px", { "lineHeight": "20px", "letterSpacing": "0px", "fontWeight": "500" }],
+              "display-xl-mobile": ["36px", { "lineHeight": "40px", "letterSpacing": "-1.5px", "fontWeight": "500" }],
+              "display-lg": ["56px", { "lineHeight": "58px", "letterSpacing": "-2px", "fontWeight": "500" }],
+              "caption": ["13px", { "lineHeight": "18px", "letterSpacing": "0px", "fontWeight": "500" }],
+              "title-md": ["18px", { "lineHeight": "25px", "letterSpacing": "0px", "fontWeight": "600" }],
+              "display-md": ["40px", { "lineHeight": "44px", "letterSpacing": "-1px", "fontWeight": "500" }],
+              "caption-uppercase": ["12px", { "lineHeight": "17px", "letterSpacing": "1.5px", "fontWeight": "600" }],
+              "body-sm": ["14px", { "lineHeight": "22px", "letterSpacing": "0px", "fontWeight": "400" }]
             }
-          }, 600);
-        }, 350);
-      }
-
-      if (isRecMode) {
-        // In recorder mode, remove loader immediately
-        if (loader && loader.parentNode) {
-          loader.parentNode.removeChild(loader);
-        }
-        loaderDismissed = true;
-      } else {
-        // Video first frame loaded
-        video.addEventListener('loadeddata', dismissLoader, { once: true });
-        video.addEventListener('canplay', dismissLoader, { once: true });
-        // Max fallback timeout 3.5s
-        setTimeout(dismissLoader, 3500);
-      }
-
-      // ------------------------------------------------------------------------
-      // Mathematics & Interpolation Helpers
-      // ------------------------------------------------------------------------
-      function clamp(val, min, max) {
-        return Math.max(min, Math.min(max, val));
-      }
-
-      function easeInOutQuad(t) {
-        return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-      }
-
-      // ------------------------------------------------------------------------
-      // Video Seeking State Machine
-      // ------------------------------------------------------------------------
-      function applyVideoSeek(time) {
-        const dur = video.duration || DURATION;
-        const boundedTime = clamp(time, 0, dur - 1/48);
-
-        if (!isSeeking) {
-          if (Math.abs(video.currentTime - boundedTime) > (1 / 60)) {
-            isSeeking = true;
-            video.currentTime = boundedTime;
-          }
-        } else {
-          pendingSeekTime = boundedTime;
-        }
-      }
-
-      video.addEventListener('seeked', () => {
-        isSeeking = false;
-        if (pendingSeekTime !== null) {
-          const nextTime = pendingSeekTime;
-          pendingSeekTime = null;
-          if (Math.abs(video.currentTime - nextTime) > (1 / 60)) {
-            isSeeking = true;
-            video.currentTime = nextTime;
           }
         }
-      });
-
-      // ------------------------------------------------------------------------
-      // UI State as Pure Function of Progress p (0 to 1)
-      // ------------------------------------------------------------------------
-      function renderUI(p) {
-        // 1. Headline Block Animation:
-        // h = easeInOutQuad(clamp(p / 0.38, 0, 1))
-        // translateY(-34h vh) rotateX(62h deg) scale(1 - 0.12h)
-        // opacity falls 1 -> 0 between p .10 and .24
-        const normH = clamp(p / 0.38, 0, 1);
-        const h = easeInOutQuad(normH);
-        const ty = -34 * h;
-        const rx = 62 * h;
-        const sc = 1 - 0.12 * h;
-        headlineBlock.style.transform = `translateY(${ty}vh) rotateX(${rx}deg) scale(${sc})`;
-
-        const hOpacity = 1 - clamp((p - 0.10) / (0.24 - 0.10), 0, 1);
-        headlineBlock.style.opacity = hOpacity;
-        headlineBlock.style.pointerEvents = hOpacity <= 0.02 ? 'none' : 'auto';
-
-        // 2. Process List Animation:
-        // Rises 40px and fades in between p .08 and .24
-        // Step 01 active below p .62, step 02 active above it
-        const tProcess = clamp((p - 0.08) / (0.24 - 0.08), 0, 1);
-        const processTy = (1 - tProcess) * 40;
-        processList.style.opacity = tProcess;
-        processList.style.transform = `translateY(${processTy}px)`;
-        processList.style.pointerEvents = tProcess <= 0.05 ? 'none' : 'auto';
-
-        const activeStep = p < 0.62 ? 1 : 2;
-        step1Card.classList.toggle('active', activeStep === 1);
-        step2Card.classList.toggle('active', activeStep === 2);
-        step3Card.classList.remove('active');
-        step4Card.classList.remove('active');
-
-        // 3. Scroll Cue Animation:
-        // Underline drains over first 10% (p 0 -> 0.10)
-        // Cue fades out between p .04 and .12
-        const lineScale = 1 - clamp(p / 0.10, 0, 1);
-        scrollCueLine.style.transform = `scaleX(${lineScale})`;
-
-        const cueOpacity = 1 - clamp((p - 0.04) / (0.12 - 0.04), 0, 1);
-        scrollCue.style.opacity = cueOpacity;
-        scrollCue.style.pointerEvents = cueOpacity <= 0.05 ? 'none' : 'auto';
-      }
-
-      // ------------------------------------------------------------------------
-      // Main Animation Frame Loop
-      // ------------------------------------------------------------------------
-      function onFrame() {
-        if (!isRecMode) {
-          // Compute normalized scroll progress p
-          const trackRect = track.getBoundingClientRect();
-          const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-          const trackTop = trackRect.top + scrollY;
-          const maxScroll = track.offsetHeight - window.innerHeight;
-          const p = clamp((scrollY - trackTop) / (maxScroll > 0 ? maxScroll : 1), 0, 1);
-
-          // Video Target Time
-          const dur = video.duration || DURATION;
-          targetTime = p * (dur - 1/48);
-
-          if (isReducedMotion) {
-            currentTime = targetTime;
-          } else {
-            // Smooth lerp: cur += (target - cur) * .2
-            currentTime += (targetTime - currentTime) * 0.2;
-          }
-
-          applyVideoSeek(currentTime);
-          renderUI(p);
-        }
-
-        requestAnimationFrame(onFrame);
-      }
-      requestAnimationFrame(onFrame);
-
-      // Scroll Cue Click to Start Scroll
-      scrollCue.addEventListener('click', () => {
-        const maxScroll = track.offsetHeight - window.innerHeight;
-        window.scrollTo({
-          top: track.offsetTop + maxScroll * 0.18,
-          behavior: 'smooth'
-        });
-      });
-
-      // Interactive Process Card Clicking
-      processCards.forEach((card, index) => {
-        card.addEventListener('click', () => {
-          const maxScroll = track.offsetHeight - window.innerHeight;
-          const targetP = index === 0 ? 0.35 : index === 1 ? 0.75 : 0.95;
-          window.scrollTo({
-            top: track.offsetTop + maxScroll * targetP,
-            behavior: 'smooth'
-          });
-        });
-      });
-
-      // ------------------------------------------------------------------------
-      // Recorder Mode API (window.__recTime)
-      // ------------------------------------------------------------------------
-      window.__recTime = function(vid, t) {
-        // Duration: hold 0.55s, then 5.04s glide, then hold to 6.5s
-        let p = 0;
-        if (t < 0.55) {
-          p = 0;
-        } else if (t < 0.55 + 5.04) {
-          p = (t - 0.55) / 5.04;
-        } else {
-          p = 1;
-        }
-        p = clamp(p, 0, 1);
-
-        const maxScroll = track.offsetHeight - window.innerHeight;
-        const targetScrollY = track.offsetTop + p * maxScroll;
-        window.scrollTo(0, targetScrollY);
-
-        renderUI(p);
-
-        const dur = vid.duration || DURATION;
-        const clipTime = p * (dur - 1/48);
-        vid.currentTime = clipTime;
-        return clipTime;
       };
-
-      if (isRecMode) {
-        // Drive automatic playback recording over 6.5s
-        const startTime = performance.now();
-        function runRecorder() {
-          const elapsed = (performance.now() - startTime) / 1000;
-          if (elapsed <= 6.5) {
-            window.__recTime(video, elapsed);
-            requestAnimationFrame(runRecorder);
-          } else {
-            window.__recTime(video, 6.5);
-          }
-        }
-        requestAnimationFrame(runRecorder);
-      }
-
-    })();
-  </script>
-</body>
+    </script>
+    <script type="module" crossorigin src="./assets/index-CgJmOKc9.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-Pl5EbDUz.css">
+  </head>
+  <body class="bg-canvas text-body font-body-md min-h-screen">
+    <div id="root"></div>
+  </body>
 </html>

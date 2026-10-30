@@ -1,4 +1,5 @@
 import React from 'react';
+import logoUrl from '../assets/trafficmind-logo.png';
 
 export default function Footer({ onNavigate }) {
   return (
@@ -12,7 +13,7 @@ export default function Footer({ onNavigate }) {
             <img 
               alt="TrafficMind AI Logo" 
               className="h-9 w-auto object-contain rounded-md" 
-              src="/trafficmind-logo.png" 
+              src={logoUrl} 
             />
           </div>
           <nav className="flex flex-wrap items-center gap-space-lg">
